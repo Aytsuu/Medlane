@@ -1,0 +1,19 @@
+import { api } from "@/api/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+
+export const useAddPatient = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: Record<string, any>) => {
+      try {
+        const res = await api.post('patient/add/', data);
+        return res.data
+      } catch (err) {
+        throw err;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['patients']})
+    }
+  })
+}
