@@ -1,6 +1,6 @@
-import { DataTable } from "@/components/ui/data-table";;
+;
 import { Button } from "@/components/ui/button";
-import { Check, Plus } from "lucide-react";
+import { CalendarPlus, Check } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import DialogLayout from "@/components/layout/dialog-layout";
@@ -17,13 +17,9 @@ import {
   showSuccessToast,
 } from "@/components/ui/toast";
 import { toast } from "sonner";
-import { staffColumns } from "./utils/columns";
-import { useAddStaff } from "./queries/postRequests";
-import { useGetStaffs } from "./queries/getRequests";
-import StaffCreateForm from "./form/StaffCreateForm";
 import { staffSchema } from "@/pages/medicalemployee/utils/employee-schema";
 
-export default function Employee() {
+export default function Schedule() {
   // ============= HOOKS & STATES =============
   const form = useForm<z.infer<typeof staffSchema>>({
     resolver: zodResolver(staffSchema),
@@ -38,12 +34,6 @@ export default function Employee() {
 
   const debouncedSearch = useDebounce(search, 300);
   const debouncedPageSize = useDebounce(pageSize, 100);
-  const {mutateAsync: addStaff} = useAddStaff();
-  const {data: staffs, isLoading} = useGetStaffs(currentPage, debouncedPageSize, debouncedSearch)
-
-  const data = staffs?.results || [];
-  const totalCount = data?.count || 0;
-  const totalPages = Math.ceil(totalCount / pageSize)
 
   // ============= HANDLERS =============
   const submit = async () => {
@@ -55,7 +45,7 @@ export default function Employee() {
     setOpenDialog(false);
     try {
       const values = form.getValues();
-      await addStaff(values);
+
       showSuccessToast("Record added successfully!");
       form.reset()
     } catch (err) {
@@ -68,10 +58,10 @@ export default function Employee() {
   // ============= RENDER =============
   return (
     <div className="w-full h-full flex flex-col items-center-safe px-10">
-      <header className="w-full mb-10 border-l-3 border-primary px-5">
-        <Label className="text-xl">Staff Profile</Label>
+      <header className="w-full mb-6 border-l-3 border-primary px-5">
+        <Label className="text-xl">Scheduled Appointments</Label>
         <Label className="text-sm font-normal">
-          Record of staffs' profile and their role
+          Manage appointments and available schedules
         </Label>
       </header>
       <div className="w-full grid grid-cols-4 gap-4 mb-8">
@@ -107,17 +97,17 @@ export default function Employee() {
       </div>
       <div className="w-full flex justify-between mb-8">
         <div className="w-full flex gap-3">
-          <Input className="max-w-sm" placeholder="Search staff by name..." />
+          <Input className="max-w-sm" placeholder="Search appointment by patient or doctor's name..." />
           <Button className="cursor-pointer" type="button"
             onClick={() => setOpenDialog(true)}
           >
-            <Plus />
-            New Staff
+            <CalendarPlus />
+            Schedule an Appointment
           </Button>
           <DialogLayout
             isOpen={openDialog}
             onOpenChange={() => setOpenDialog((prev) => !prev)}
-            title="Staff Profile Form"
+            title="Appointment Form"
             description="Please fill out all required fields"
             mainContent={
               <Form {...form}>
@@ -129,7 +119,7 @@ export default function Employee() {
                   }}
                 >
                   
-                  <StaffCreateForm form={form} />
+   
                   <div className="w-full flex justify-end-safe mt-4 mb-2">
                     <Button type="submit" className="cursor-pointer">
                       <Check />
@@ -143,20 +133,6 @@ export default function Employee() {
         </div>
       </div>
 
-      {!isLoading && data?.length == 0 && (
-        <div className="w-full flex justify-center items-center text-prim">
-          No results
-        </div>
-      )}
-
-      {data?.length > 0 && (
-        <DataTable
-          columns={staffColumns}
-          data={data}
-          headerClassName="border-y h-14"
-          cellClassName="h-15"
-        />
-      )}
     </div>
   );
 }

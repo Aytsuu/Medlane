@@ -3,7 +3,7 @@ import { FormSelect } from '@/components/form/form-select'
 import { FormDateTime } from '@/components/form/form-date-time'
 import type { UseFormReturn } from 'react-hook-form'
 import type z from 'zod'
-import type { staffSchema } from '@/schema/employee-schema'
+import type { staffSchema } from '@/pages/medicalemployee/utils/employee-schema'
 
 const SEX_OPTIONS = [
   {id: "FEMALE", name: "FEMALE"},
@@ -23,7 +23,7 @@ export default function StaffCreateForm({form} : {
 }) {
   return (
     <>
-      <FormInput control={form.control} name='staf_lname' label='Last Name' placeholder='Enter Last Name' upper={true}/>
+      <FormInput control={form.control} name='staff_lname' label='Last Name' placeholder='Enter Last Name' upper={true}/>
       <FormInput control={form.control} name='staff_fname' label='First Name' placeholder='Enter First Name' upper={true}/>
       <FormInput control={form.control} name='staff_mname' label='Middle Name' placeholder='Enter Middle Name (Optional)' upper={true}/>
       <FormSelect control={form.control} name='staff_sex' label='Sex' options={SEX_OPTIONS}/>

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import DialogLayout from "@/components/layout/dialog-layout";
 import PatientCreateForm from "./form/PatientCreateForm";
-import { profileSchema } from "@/schema/patient-schema";
+import { profileSchema } from "@/pages/patient/utils/patient-schema";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,6 +29,14 @@ import {
   showSuccessToast,
 } from "@/components/ui/toast";
 import { toast } from "sonner";
+import { calculateAge } from "@/helpers/calculateAge";
+
+const AGE_DESCRIPTION: any = {
+  Children: "0 - 14 years",
+  Youth: "15 - 24 years",
+  Adult: "25 - 64 years",
+  Senior: "65 years and over"
+}
 
 export default function Profile() {
   // ============= HOOKS & STATES =============
@@ -53,31 +61,16 @@ export default function Profile() {
   );
 
   const data = patients?.results || [];
+  const groupedAge = data?.reduce((acc: Record<string, any>, patient: Record<string, any>) => {
+    const age = +calculateAge(patient.pat_dob);
+    if(age <= 14) acc['Children'] += 1
+    else if (age <= 24) acc['Youth'] += 1
+    else if (age <= 64) acc['Adult'] += 1
+    else acc['Senior'] += 1
+    return acc
+  }, { Children: 0, Youth: 0, Adult: 0, Senior: 0})
   const totalCount = patients?.count || 0;
   const totalPageSize = Math.ceil(totalCount / pageSize);
-
-  const ageGroupCards = [
-    {
-      group: "Children",
-      description: "0 - 14 years",
-      total: "0",
-    },
-    {
-      group: "Youth",
-      description: "15 - 24 years",
-      total: "0",
-    },
-    {
-      group: "Adult",
-      description: "25 - 64 years",
-      total: "0",
-    },
-    {
-      group: "Senior",
-      description: "65 years and over",
-      total: "0",
-    },
-  ];
 
   // ============= HANDLERS =============
   const submit = async () => {
@@ -109,7 +102,7 @@ export default function Profile() {
         </Label>
       </header>
       <div className="w-full grid grid-cols-4 gap-4 mb-8">
-        {ageGroupCards.map((item, index) => (
+        {Object.entries(groupedAge).map(([key, val], index) => (
           <Card
             key={index}
             className="flex-row border-1 relative overflow-hidden"
@@ -121,10 +114,10 @@ export default function Profile() {
           >
             <CardHeader className="w-full relative z-10">
               <CardTitle style={{ color: "oklch(0.645 0.246 16.439)" }}>
-                {item.group}
+                {key}
               </CardTitle>
               <CardDescription className="text-black/60">
-                {item.description}
+                {AGE_DESCRIPTION[key]}
               </CardDescription>
             </CardHeader>
             <CardContent className="w-2/3 flex items-center justify-center relative z-10 gap-2">
@@ -133,7 +126,7 @@ export default function Profile() {
                 className="text-3xl font-bold"
                 style={{ color: "oklch(0.645 0.246 16.439)" }}
               >
-                {item.total}
+                {String(val)}
               </Label>
             </CardContent>
           </Card>

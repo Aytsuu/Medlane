@@ -1,7 +1,6 @@
 import * as React from "react"
 import {
   Activity,
-  Command,
   HandCoins,
   HouseHeart,
   LayoutDashboard,
@@ -20,6 +19,7 @@ import {
 } from "@/components/ui/sidebar"
 import { NavMain } from "./nav-main"
 import { NavUser } from "./nav-user"
+import { Link } from "react-router"
 
 const data = {
   user: {
@@ -47,12 +47,12 @@ const data = {
     },
     {
       title: "Appointments",
-      url: "#",
+      url: "/appointments",
       icon: HouseHeart,
     },
     {
       title: "Billing",
-      url: "#",
+      url: "/billing",
       icon: HandCoins,
     },
     {
@@ -70,7 +70,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Link to="/">
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
 
                 </div>
@@ -78,7 +78,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <span className="truncate font-medium">MedLane Care</span>
                   <span className="truncate text-xs">Medical System</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

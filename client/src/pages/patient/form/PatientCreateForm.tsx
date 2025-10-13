@@ -1,7 +1,7 @@
 import { FormInput } from '@/components/form/form-input'
 import { FormSelect } from '@/components/form/form-select'
 import { FormDateTime } from '@/components/form/form-date-time'
-import type { profileSchema } from '@/schema/patient-schema'
+import type { profileSchema } from '@/pages/patient/utils/patient-schema'
 import type { UseFormReturn } from 'react-hook-form'
 import type z from 'zod'
 

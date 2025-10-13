@@ -9,6 +9,7 @@ export const useAddStaff = () => {
         const res = await api.post("medicalemployee/add/", data);
         return res.data;
       } catch (err) {
+        console.error(err)
         throw err;
       }
     },
