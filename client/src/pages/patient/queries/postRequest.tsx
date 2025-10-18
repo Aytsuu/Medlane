@@ -6,7 +6,7 @@ export const useAddPatient = () => {
   return useMutation({
     mutationFn: async (data: Record<string, any>) => {
       try {
-        const res = await api.post('patient/add/', data);
+        const res = await api.post('api/patient/add/', data);
         return res.data
       } catch (err) {
         throw err;

@@ -107,13 +107,13 @@ export default function Profile() {
             key={index}
             className="flex-row border-1 relative overflow-hidden"
             style={{
-              borderColor: "oklch(0.645 0.246 16.439)",
+              borderColor: "oklch(0.696 0.17 162.48)",
               background:
-                "linear-gradient(135deg, oklch(0.645 0.246 16.439 / 0.08) 0%, oklch(0.645 0.246 16.439 / 0.02) 100%)",
+                "linear-gradient(135deg, oklch(0.696 0.17 162.48 / 0.08) 0%, oklch(0.696 0.17 162.48 / 0.02) 100%)",
             }}
           >
             <CardHeader className="w-full relative z-10">
-              <CardTitle style={{ color: "oklch(0.645 0.246 16.439)" }}>
+              <CardTitle style={{ color: "oklch(0.696 0.17 162.48)" }}>
                 {key}
               </CardTitle>
               <CardDescription className="text-black/60">
@@ -124,7 +124,7 @@ export default function Profile() {
               <UserRound className="text-primary" />
               <Label
                 className="text-3xl font-bold"
-                style={{ color: "oklch(0.645 0.246 16.439)" }}
+                style={{ color: "oklch(0.696 0.17 162.48)" }}
               >
                 {String(val)}
               </Label>
