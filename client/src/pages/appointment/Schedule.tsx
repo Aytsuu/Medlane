@@ -22,6 +22,7 @@ import { useCreateAppointment } from "./queries/postRequests";
 import { useGetAppointments } from "./queries/getRequests";
 import { Card } from "@/components/ui/card";
 import { formatDate, formatTime12Hour, formatTimeAgo } from "@/helpers/date";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function Schedule() {
   // ============= HOOKS & STATES =============
@@ -81,7 +82,7 @@ export default function Schedule() {
   // ============= RENDER =============
   return (
     <div className="w-full h-full flex flex-col items-center-safe px-10">
-      <header className="w-full mb-6 border-l-3 border-primary px-5">
+      <header className="w-full mb-10 border-l-3 border-primary px-5">
         <Label className="text-xl">Scheduled Appointments</Label>
         <Label className="text-sm font-normal">
           Manage appointments and available schedules
@@ -128,6 +129,16 @@ export default function Schedule() {
           />
         </div>
       </div>
+
+      {isLoading && (
+        <div className="flex justify-center mt-10">
+          <div className="flex flex-col items-center-safe gap-4">
+            <Spinner size="lg" />
+            <p>Please wait while we're fetching appointment records...</p>
+          </div>
+        </div>
+      )}
+
       <main className="w-full flex gap-6">
         {data?.map((appointment: Record<string, any>) => (
           <Card className="p-4 flex flex-col justify-between hover:shadow-md transition-shadow w-full max-w-[320px]">

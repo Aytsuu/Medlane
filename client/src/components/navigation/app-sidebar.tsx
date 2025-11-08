@@ -28,12 +28,12 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: LayoutDashboard,
-      isActive: true,
-    },
+    // {
+    //   title: "Dashboard",
+    //   url: "/dashboard",
+    //   icon: LayoutDashboard,
+    //   isActive: true,
+    // },
     {
       title: "Patients",
       url: "/patients",
@@ -55,11 +55,11 @@ const data = {
       url: "/billing",
       icon: HandCoins,
     },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-    },
+    // {
+    //   title: "Settings",
+    //   url: "#",
+    //   icon: Settings2,
+    // },
   ],
 }
 

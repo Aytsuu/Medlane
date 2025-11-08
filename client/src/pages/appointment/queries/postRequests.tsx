@@ -15,6 +15,7 @@ export const useCreateAppointment = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['appointments']})
+      queryClient.invalidateQueries({ queryKey: ['billing']})
     }
   })
 }

@@ -22,6 +22,7 @@ import { useAddStaff } from "./queries/postRequests";
 import { useGetStaffs } from "./queries/getRequests";
 import StaffCreateForm from "./form/StaffCreateForm";
 import { staffSchema } from "@/pages/medicalemployee/utils/employee-schema";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function Employee() {
   // ============= HOOKS & STATES =============
@@ -74,37 +75,6 @@ export default function Employee() {
           Record of staffs' profile and their role
         </Label>
       </header>
-      <div className="w-full grid grid-cols-4 gap-4 mb-8">
-        {/* {ageGroupCards.map((item, index) => (
-          <Card
-            key={index}
-            className="flex-row border-1 relative overflow-hidden"
-            style={{
-              borderColor: "oklch(0.645 0.246 16.439)",
-              background:
-                "linear-gradient(135deg, oklch(0.645 0.246 16.439 / 0.08) 0%, oklch(0.645 0.246 16.439 / 0.02) 100%)",
-            }}
-          >
-            <CardHeader className="w-full relative z-10">
-              <CardTitle style={{ color: "oklch(0.645 0.246 16.439)" }}>
-                {item.group}
-              </CardTitle>
-              <CardDescription className="text-black/60">
-                {item.description}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="w-2/3 flex items-center justify-center relative z-10 gap-2">
-              <UserRound className="text-primary" />
-              <Label
-                className="text-3xl font-bold"
-                style={{ color: "oklch(0.645 0.246 16.439)" }}
-              >
-                {item.total}
-              </Label>
-            </CardContent>
-          </Card>
-        ))} */}
-      </div>
       <div className="w-full flex justify-between mb-8">
         <div className="w-full flex gap-3">
           <Input className="max-w-sm" placeholder="Search staff by name..." />
@@ -146,6 +116,15 @@ export default function Employee() {
       {!isLoading && data?.length == 0 && (
         <div className="w-full flex justify-center items-center text-prim">
           No results
+        </div>
+      )}
+
+      {isLoading && (
+        <div className="flex justify-center mt-10">
+          <div className="flex flex-col items-center-safe gap-4">
+            <Spinner size="lg"/>
+            <p>Please wait while we're fetching staff records...</p>
+          </div>
         </div>
       )}
 

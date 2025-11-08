@@ -30,13 +30,14 @@ import {
 } from "@/components/ui/toast";
 import { toast } from "sonner";
 import { calculateAge } from "@/helpers/calculateAge";
+import { Spinner } from "@/components/ui/spinner";
 
 const AGE_DESCRIPTION: any = {
   Children: "0 - 14 years",
   Youth: "15 - 24 years",
   Adult: "25 - 64 years",
-  Senior: "65 years and over"
-}
+  Senior: "65 years and over",
+};
 
 export default function Profile() {
   // ============= HOOKS & STATES =============
@@ -49,7 +50,7 @@ export default function Profile() {
   const [search, setSearch] = React.useState<string>("");
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [pageSize, setPageSize] = React.useState<number>(10);
-  const [openDialog, setOpenDialog] = React.useState<boolean>(false)
+  const [openDialog, setOpenDialog] = React.useState<boolean>(false);
   const { mutateAsync: addPatient } = useAddPatient();
 
   const debouncedSearch = useDebounce(search, 300);
@@ -61,14 +62,17 @@ export default function Profile() {
   );
 
   const data = patients?.results || [];
-  const groupedAge = data?.reduce((acc: Record<string, any>, patient: Record<string, any>) => {
-    const age = +calculateAge(patient.pat_dob);
-    if(age <= 14) acc['Children'] += 1
-    else if (age <= 24) acc['Youth'] += 1
-    else if (age <= 64) acc['Adult'] += 1
-    else acc['Senior'] += 1
-    return acc
-  }, { Children: 0, Youth: 0, Adult: 0, Senior: 0})
+  const groupedAge = data?.reduce(
+    (acc: Record<string, any>, patient: Record<string, any>) => {
+      const age = +calculateAge(patient.pat_dob);
+      if (age <= 14) acc["Children"] += 1;
+      else if (age <= 24) acc["Youth"] += 1;
+      else if (age <= 64) acc["Adult"] += 1;
+      else acc["Senior"] += 1;
+      return acc;
+    },
+    { Children: 0, Youth: 0, Adult: 0, Senior: 0 }
+  );
   const totalCount = patients?.count || 0;
   const totalPageSize = Math.ceil(totalCount / pageSize);
 
@@ -135,7 +139,9 @@ export default function Profile() {
       <div className="w-full flex justify-between mb-8">
         <div className="w-full flex gap-3">
           <Input className="max-w-sm" placeholder="Search patient by name..." />
-          <Button className="cursor-pointer" type="button"
+          <Button
+            className="cursor-pointer"
+            type="button"
             onClick={() => setOpenDialog(true)}
           >
             <Plus />
@@ -172,6 +178,15 @@ export default function Profile() {
       {!isLoading && data?.length == 0 && (
         <div className="w-full flex justify-center items-center text-prim">
           No results
+        </div>
+      )}
+
+      {isLoading && (
+        <div className="flex justify-center mt-10">
+          <div className="flex flex-col items-center-safe gap-4">
+            <Spinner size="lg" />
+            <p>Please wait while we're fetching patient records...</p>
+          </div>
         </div>
       )}
 

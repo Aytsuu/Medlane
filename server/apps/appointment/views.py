@@ -4,7 +4,7 @@ from .serializers import *
 from pagination import StandardResultsPagination
 
 class AppointmentCreateView(generics.CreateAPIView):
-  serializer_class = AppointmentBaseSerializer
+  serializer_class = AppointmentCreateSerializer
   queryset = Appointment.objects.all()
 
 class AppointmentListView(generics.ListAPIView):

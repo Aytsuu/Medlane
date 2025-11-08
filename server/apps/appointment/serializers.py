@@ -1,5 +1,7 @@
 from rest_framework import serializers
+from django.db import transaction
 from .models import *
+from apps.billing.models import Billing
 
 class AppointmentBaseSerializer(serializers.ModelSerializer):
   class Meta:
@@ -29,5 +31,20 @@ class AppointmentListSerializer(serializers.ModelSerializer):
       'name': f'{info.staff_lname}, {info.staff_fname}{f' {info.staff_mname}' if info.staff_mname else ''}',
       'role': info.staff_pos
     }
+
+class AppointmentCreateSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Appointment
+    fields = '__all__'
   
+  @transaction.atomic
+  def create(self, validated_data):
+    instance = Appointment(**validated_data)
+    instance.save()
+    Billing.objects.create(
+      bill_amount=750.00,
+      app=instance
+    )
+    
+    return instance
   
